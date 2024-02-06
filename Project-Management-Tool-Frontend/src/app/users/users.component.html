@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="labels">
+    <label>Filters:</label>
+  </div>
+  <div class="filter-button">
+    <div class="role-button">
+      <button (click)="setFilter('Developer')"> Developer</button>
+      <button (click)="setFilter('ProjectManager')"> Project Manager</button>
+      <button (click)="setFilter('Manager')"> Manager</button>
+      <button (click)="setFilter('Admin')"> Admin</button>
+    </div>
+
+    <div class="reset-button">
+      <button (click)="currentFilter=''"> All</button>
+    </div>
+
+    <div class="experience-button">
+      <button (click)="setFilter('Intern')"> Intern</button>
+      <button (click)="setFilter('Junior')"> Junior</button>
+      <button (click)="setFilter('Mid')"> Mid</button>
+      <button (click)="setFilter('Senior')"> Senior</button>
+      <button *ngIf="authService.loggedUser.role === 'Admin'" routerLink="/signup">Add user</button>
+      <button *ngIf="authService.loggedUser.role === 'Admin'" (click)="toggleDelete()" class="delete-button">Delete</button>
+    </div>
+  </div>
+  <div class="user-container">
+    <div *ngFor="let user of displayUser">
+      <div class="user" *ngIf="!currentFilter || user.role === currentFilter || user.experience == currentFilter">
+        <h1> {{ user.firstName }} {{ user.lastName }}</h1>
+        <button *ngIf="deleteMode" class="delete-circle" (click)="deleteUser(user)">X</button>
+        <p>Company: {{ user.companyId.name }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Phone Number: {{ user.phone }}</p>
+        <p>
+          Address: {{ user.country }} {{ user.province }} {{ user.city }} {{ user.postalCode }} {{ user.street }} {{ user.houseNumber }} </p>
+        <p>Role: {{ user.role }}</p>
+        <p>Experience: {{ user.experience }}</p>
+      </div>
+    </div>
+  </div>
+</div>

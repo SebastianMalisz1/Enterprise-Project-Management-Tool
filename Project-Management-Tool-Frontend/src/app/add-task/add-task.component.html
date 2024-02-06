@@ -1,0 +1,55 @@
+<div class="container">
+  <h1 class="logo"> Task Form </h1>
+
+  <div class="form-container">
+    <form #taskForm="ngForm" (ngSubmit)="addTask(taskForm)">
+
+      <div class="form-group">
+        <label for="taskName"> Task name:</label>
+        <input type="text" id="taskName" name="taskName" [(ngModel)]="task.name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="projectId"> Project ID:</label>
+        <input type="number" id="projectId" name="projectId"  [(ngModel)]="task.projectId" required>
+      </div>
+
+      <div class="form-group">
+        <label for="taskDescription"> Description:</label>
+        <input type="text" id="taskDescription" name="taskDescription"  [(ngModel)]="task.description" required>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedById"> Assigned By (ID):</label>
+        <input type="number" id="assignedById" name="assignedById" [(ngModel)]="task.assignedById" required>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedToId"> Assigned To (ID):</label>
+        <input type="number" id="assignedToId" name="assignedToId" [(ngModel)]="task.assignedToId" required>
+      </div>
+
+      <div class="form-group">
+        <label for="taskStartDate"> Start Date:</label>
+        <input type="date" id="taskStartDate" name="taskStartDate" [(ngModel)]="task.startDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="taskEndDate"> End Date:</label>
+        <input type="date" id="taskEndDate" name="taskEndDate" [(ngModel)]="task.endDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="taskPriority"> Priority:</label>
+        <input type="text" id="taskPriority" name="taskPriority" [(ngModel)]="task.priority" required>
+      </div>
+
+      <div class="form-group">
+        <label for="taskStatus"> Status:</label>
+        <input type="text" id="taskStatus" name="taskStatus"  [(ngModel)]="task.status" required>
+      </div>
+
+      <button type="submit" [disabled]="taskForm.invalid">Submit</button>
+    </form>
+  </div>
+</div>

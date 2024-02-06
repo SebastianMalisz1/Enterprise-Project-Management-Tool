@@ -1,0 +1,52 @@
+<div class="container">
+    <h1 class="logo"> Project Form </h1>
+
+    <div class="form-container">
+        <form #projectForm="ngForm" (ngSubmit)="addProject(projectForm)">
+
+            <div class="form-group">
+                <label for="projectName"> Project name:</label>
+                <input type="text" id="projectName" name="projectName"  [(ngModel)]="project.name" required>
+            </div>
+
+          <div class="form-group">
+            <label for="companyName"> Company name:</label>
+            <select id="companyName" name="companyName" [(ngModel)]="project.companyId.name" required>
+              <option *ngFor="let name of displayCompanies" [value]="name">{{ name }}</option>
+            </select>
+          </div>
+
+            <div class="form-group">
+                <label for="managerId"> Manager ID:</label>
+                <input type="number" id="managerId" name="managerId" [(ngModel)]="project.managerId" required>
+            </div>
+
+            <div class="form-group">
+                <label for="projectDescription"> Description:</label>
+                <input type="text" id="projectDescription" name="projectDescription" [(ngModel)]="project.description" required>
+            </div>
+
+            <div class="form-group">
+                <label for="taskStartDate"> Start Date:</label>
+                <input type="date" id="taskStartDate" name="taskStartDate" [(ngModel)]="project.startDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="taskEndDate"> End Date:</label>
+                <input type="date" id="taskEndDate" name="taskEndDate" [(ngModel)]="project.endDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="projectPriority"> Priority:</label>
+                <input type="text" id="projectPriority" name="projectPriority" [(ngModel)]="project.priority" required>
+            </div>
+
+            <div class="form-group">
+                <label for="projectStatus"> Status:</label>
+                <input type="text" id="projectStatus" name="projectStatus" [(ngModel)]="project.status" required>
+            </div>
+
+            <button type="submit" [disabled]="projectForm.invalid">Submit</button>
+        </form>
+    </div>
+</div>
