@@ -5,11 +5,12 @@ import {Task} from "../models/task.model";
 import {AuthService} from "../services/auth.service";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {Company} from "../models/company.model";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-tickets',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet, RouterLink, ReactiveFormsModule, FormsModule],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss'
 })
@@ -17,7 +18,7 @@ export class TasksComponent implements OnInit {
   tasks: Task[] = [];
   tasksFiltered: Task[] = [];
   deleteMode = false;
-
+  statusAfterSelection: string = "";
   constructor(private taskService: TaskService, public authService: AuthService) {
   }
 
@@ -37,6 +38,13 @@ export class TasksComponent implements OnInit {
   }
   toggleDelete(): void {
     this.deleteMode = !this.deleteMode;
+  }
+
+  onSelectedChange(task: Task,status: string){
+    this.statusAfterSelection = status;
+    console.log(this.statusAfterSelection);
+    task.status = this.statusAfterSelection
+    this.taskService.updateTask(task).subscribe()
   }
 
   deleteTask(task: Task): void {

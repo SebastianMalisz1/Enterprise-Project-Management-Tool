@@ -5,8 +5,9 @@ import {User} from "../models/user.model";
 import {Router} from "@angular/router";
 import {UserService} from "../services/user.service";
 import {CompanyService} from "../services/company.service";
-import {map} from "rxjs";
+import {map, Observable} from "rxjs";
 import {AuthService} from "../services/auth.service";
+import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'app-sign-up',
@@ -16,38 +17,46 @@ import {AuthService} from "../services/auth.service";
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-  adminCompanies: any[] = [this.companyService.getAllCompanies().pipe(
-    map(companies => companies.map(company => company.name))
-  ).subscribe(adminCompanies => {
-    this.adminCompanies = adminCompanies;
-  })
-  ];
-  yourCompany: string[] = [this.authService.loggedUser.companyId.name];
+  companies: any[] =[];
+  roles: string[] = ["Developer", "Manager", "Admin"];
+  experiences: string[] = ["Junior", "Mid", "Senior"];
   user: User = this.userService.blankUser;
 
   constructor(private userService: UserService, private companyService: CompanyService,
               private router: Router, private authService: AuthService) {
   }
 
-  get displayCompanies() {
-    return this.authService.loggedUser.role === 'Admin' ? this.adminCompanies : this.yourCompany;
-  }
-  signUp(userForm: NgForm) {
-    if (userForm.valid) {
-      this.companyService.getCompanyById(userForm.value.companyId).subscribe(company => {
-        this.user.companyId = company;
-        this.userService.createUser(this.user).subscribe(
-          newUser => {
-            console.log('User signed up successfully:', newUser);
-            alert('User signed up successfully');
-            this.router.navigate([`/users`]);
-          },
-          error => {
-            console.error('Error during sign up:', error);
-            alert('Error during sign up');
-          }
-        );
+  ngOnInit(): void {
+      this.getCompaniesForAdmin().subscribe(companies => {
+          this.companies = companies;
       });
-    }
+
   }
+    getCompaniesForAdmin(): Observable<any[]> {
+        return this.companyService.getAllCompanies();
+    }
+
+
+    signUp(userForm: NgForm) {
+        if (userForm.valid) {
+            this.companyService.getCompanyById(userForm.value.companyId)
+                .pipe(
+                    switchMap(company => {
+                        this.user.companyId = company;
+                        return this.userService.createUser(this.user);
+                    })
+                ).subscribe({
+                    next: (createdUser) => {
+                        console.log('User created successfully:', createdUser);
+                        alert('User created successfully');
+                        this.router.navigate([`/users`]);
+                        userForm.resetForm();
+                    },
+                    error: (error) => {
+                        console.error('Error creating user:', error);
+                        alert('Error creating user');
+                    }
+                });
+        }
+    }
 }

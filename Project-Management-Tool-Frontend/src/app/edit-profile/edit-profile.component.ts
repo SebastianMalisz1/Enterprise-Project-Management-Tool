@@ -12,6 +12,8 @@ import {RouterLink} from "@angular/router";
   styleUrl: './edit-profile.component.scss'
 })
 export class EditProfileComponent {
+  roles: string[] = ["Developer", "Manager", "Admin"];
+  experiences: string[] = ["Junior", "Mid", "Senior"];
   constructor(public authService: AuthService, public userService: UserService) {
   }
 

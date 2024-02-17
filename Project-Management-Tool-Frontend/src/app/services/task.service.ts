@@ -4,6 +4,7 @@ import {Observable, map} from "rxjs";
 import {Task} from "../models/task.model";
 import {User} from "../models/user.model";
 import {Company} from "../models/company.model";
+import {Project} from "../models/project.model";
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +22,18 @@ export class TaskService {
   createTask(task: Task): Observable<Task> {
     return this.http.post<Task>(this.apiUrl, task);
   }
-
+  getTaskById(id: number):  Observable<Task> {
+    return this.http.get<Task>((`${this.apiUrl}/${id}`));
+  }
   deleteTask(id: number | undefined): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+
+  updateTask(task: Task): Observable<Task> {
+    const url = `${this.apiUrl}/${task.taskId}`;
+    return this.http.put<Task>(url, task);
+  }
+
 
   blankTask: Task = {
     taskId: undefined,
@@ -140,6 +149,7 @@ export class TaskService {
       priority: "",
       status: "",
       progress: 1,
+      archived: false
     },
     name: "",
     description: "",
@@ -147,6 +157,6 @@ export class TaskService {
     endDate: new Date(),
     priority: "",
     status: "",
-    progress: 0
+    progress: 0,
   };
 }

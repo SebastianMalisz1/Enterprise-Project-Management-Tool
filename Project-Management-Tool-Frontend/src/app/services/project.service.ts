@@ -6,6 +6,7 @@ import {Company} from "../models/company.model";
 import {User} from "../models/user.model";
 import {UserService} from "./user.service";
 import {CompanyService} from "./company.service";
+import {Task} from "../models/task.model";
 
 
 @Injectable({
@@ -27,6 +28,10 @@ export class ProjectService {
 
   createProject(project: Project): Observable<Project> {
     return this.http.post<Project>(this.apiUrl, project);
+  }
+  updateProject(project: Project): Observable<Project> {
+    const url = `${this.apiUrl}/${project.projectId}`;
+    return this.http.put<Project>(url, project);
   }
 
   deleteProject(id: number | undefined): Observable<any> {
@@ -86,5 +91,6 @@ export class ProjectService {
     priority: "",
     status: "",
     progress: 1,
+    archived: false
   }
 }

@@ -1,4 +1,4 @@
-<div *ngIf="authService.loggedUser.role === 'Admin' || authService.loggedUser.role === 'Manager' || authService.loggedUser.role === 'ProjectManager'" class="filter-button">
+<div *ngIf="authService.loggedUser.role === 'Manager' || authService.loggedUser.role === 'ProjectManager'" class="filter-button">
   <div class="add-task-button">
     <button routerLink="/add-task">Add task</button>
     <button (click)="toggleDelete()" class="delete-button">Delete</button>
@@ -16,7 +16,21 @@
     <p>Assigned By: {{ task.assignedById.firstName }} {{ task.assignedById.lastName }}</p>
     <p>Assigned To: {{ task.assignedToId.firstName }} {{ task.assignedToId.lastName }}</p>
     <p>Priority: {{ task.priority }}</p>
-    <p>Status: {{ task.status }}</p>
+      <ng-container *ngIf="authService.loggedUser.role === 'Manager'; else roleText">
+        <div class="statusList">
+        <label>Status: </label>
+        <select [(ngModel)]="task.status" (ngModelChange)="onSelectedChange(task ,$event)">
+          <option value="NotStarted">NotStarted</option>
+          <option value="InProgress">InProgress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        </div>
+      </ng-container>
+      <ng-template #roleText>
+        <p class="field">Status: {{ task.status }}</p>
+      </ng-template>
+
+<!--    <p>Status: {{ task.status }}</p>-->
   </div>
 </div>
 </div>

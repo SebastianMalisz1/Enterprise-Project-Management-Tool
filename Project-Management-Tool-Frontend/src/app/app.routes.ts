@@ -13,6 +13,8 @@ import {AddProjectComponent} from "./add-project/add-project.component";
 import {AddTaskComponent} from "./add-task/add-task.component";
 import {AddCompanyComponent} from "./add-company/add-company.component";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
+import {TaskDetailedComponent} from "./task-detailed/task-detailed.component";
+import {AddTaskToProjectComponent} from "./add-task-to-project/add-task-to-project.component";
 
 export const routes: Routes = [
   {path: '', component: TitlePageComponent},
@@ -24,6 +26,8 @@ export const routes: Routes = [
   {path: 'signup', component: SignUpComponent},
   {path: 'signin', component: SignInComponent},
   {path: 'projects/:id/tasks', component: TempComponent},
+  {path: 'tasks/:id', component: TaskDetailedComponent},
+  {path: 'add-task/:id', component: AddTaskToProjectComponent},
   {path: 'add-task', component: AddTaskComponent},
   {path: 'add-project', component: AddProjectComponent},
   {path: 'add-company', component: AddCompanyComponent},
